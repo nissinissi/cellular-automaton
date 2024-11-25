@@ -7,8 +7,9 @@ live_texture = {
     "FOREST": "🌲",
     "CITY": "🏭",
     "GLACIER": "⛄️",  # "❄️",  # "🧊",
-    "RAIN": "🌧️",
-    "CLOUD": "☁️",
+    "RAIN": "💧",
+    "CLOUD": "💨",
+    "SUN": "🌞️",
     "AIR_POLLUTION": "💨",  # "🌫️",
     "HEAT": "🌡️",  # "🔥"
 }
@@ -20,8 +21,9 @@ block_texture = {
     "FOREST": "🟩",
     "CITY": "🟨",
     "GLACIER": "⬜️️",
-    "RAIN": "🌧️",
-    "CLOUD": "☁️",
+    "RAIN": "🔵",
+    "CLOUD": "⚪️️",
+    "SUN": "⚫️️",
     "AIR_POLLUTION": "💨",
     "HEAT": "🌡️",  # "🔥"
 }

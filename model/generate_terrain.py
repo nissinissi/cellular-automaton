@@ -11,7 +11,9 @@ def gaussian_2d(m_x: float, s_x: float, m_y: float, s_y: float, p: float):
             2 * p * (x - m_x) * (y - m_y) / (s_x * s_y)
             - (x - m_x) * (x - m_x) / s_x / s_x
             - (y - m_y) * (y - m_y) / s_y / s_y
-        ) / 2 / (1 - p*p)
+        )
+        / 2
+        / (1 - p * p)
     ) / (2 * pi * s_x * s_y * (1 - p**2) ** 0.5)
 
 

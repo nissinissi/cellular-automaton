@@ -13,7 +13,7 @@ def optional_chr(value: bool, character: chr) -> chr:
 
 
 class Graphics:
-    def __init__(self, texture: dict = block_texture):
+    def __init__(self, texture: dict = live_texture):
         self.texture = texture
 
     def cloud_or_rain(self, cell: Cell):
@@ -21,19 +21,23 @@ class Graphics:
             return self.texture["RAIN"]
         if cell.cloud.cloud.value:
             return self.texture["CLOUD"]
-        return EMPTY
+        return self.texture["SUN"]
 
     def cell_representation(self, cell: Cell) -> List[str]:
         cell_texture = self.texture[texture_parameter_from_cell(cell)]
+        # return [
+        #     type(cell.cell_type).__name__[0] + str(int(cell.cloud.cloud.value)) + str(int(cell.cloud.rain.value)),
+        #     str(cell.cell_type.height) + str(cell.heat.value) + str(cell.air_pollution.value),
+        # ]
         return [
-            cell_texture + self.cloud_or_rain(cell) + str(cell.air_pollution.value),
-            str(cell.cell_type.height) + EMPTY * 2 + str(cell.heat.value),
+            cell_texture + EMPTY + str(cell.cell_type.height) + EMPTY,
+            self.cloud_or_rain(cell) + str(cell.heat.value) + EMPTY + str(cell.air_pollution.value),
         ]
-        """return [
-            cell_texture + self.cloud_or_rain(cell) + EMPTY + self.texture["AIR_POLLUTION"] +
-            str(cell.air_pollution.value),
-            str(cell.cell_type.height) + EMPTY * 3 + self.texture["HEAT"] + str(cell.heat.value),
-        ]"""
+        # return [
+        #     cell_texture + self.cloud_or_rain(cell) + EMPTY + self.texture["AIR_POLLUTION"] +
+        #     str(cell.air_pollution.value),
+        #     str(cell.cell_type.height) + EMPTY * 3 + self.texture["HEAT"] + str(cell.heat.value),
+        # ]
 
     def show_grid(self, grid: Grid):
         for line in grid.grid:
