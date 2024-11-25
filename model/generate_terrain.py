@@ -1,3 +1,4 @@
+from itertools import product
 from math import exp, pi
 from random import choice, choices, random, uniform
 
@@ -34,8 +35,7 @@ def generate_terrain():
             [(new_gaussian(x, y), current_class) for x in range(GRID_SIZE)]
             for y in range(GRID_SIZE)
         ]
-        terrain = [
-            [max(terrain[x][y], new_distribution[x][y]) for x in range(GRID_SIZE)]
-            for y in range(GRID_SIZE)
-        ]
+        for x, y in product(range(GRID_SIZE), repeat=2):
+            if terrain[x][y][0] < new_distribution[x][y][0]:
+                terrain[x][y] = new_distribution[x][y]
     return terrain

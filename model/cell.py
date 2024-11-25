@@ -10,7 +10,8 @@ from model.characteristics import (AirPollution, Cloud, Heat, IsCloudPresent,
                                    WindStrength)
 from model.consts import (AIR_POLLUTION_MAX, CLOUD_GENERATION_PROBABILITY,
                           GLACIER_MELTING_THRESHOLD, HEAT_MAX,
-                          WIND_RANDOM_FACTOR, CELL_TYPE_MAX_HEIGHTS, RAIN_GENERATION_PROBABILITY)
+                          WIND_RANDOM_FACTOR, CELL_TYPE_MAX_HEIGHTS, RAIN_GENERATION_PROBABILITY,
+                          POLLUTION_GENERATION_PROBABILITY, HEAT_MIN)
 from model.wind_grid import WindGrid
 
 
@@ -31,7 +32,7 @@ class Cell:
         if self.cloud.rain.value:
             heat_value -= 1
         heat_value += self.air_pollution.value
-        return Heat(min(heat_value, HEAT_MAX))
+        return Heat(max(min(heat_value, HEAT_MAX), HEAT_MIN))
 
     @staticmethod
     def _may_create_cloud() -> bool:
@@ -40,6 +41,10 @@ class Cell:
     @staticmethod
     def _may_create_rain() -> bool:
         return random() > (1 - RAIN_GENERATION_PROBABILITY)
+
+    @staticmethod
+    def _may_create_pollution() -> bool:
+        return random() > (1 - POLLUTION_GENERATION_PROBABILITY)
 
     def is_melting_glacier(self) -> bool:
         return (
@@ -53,9 +58,9 @@ class Cell:
         #     and self.cloud.cloud.value
         # )
         # incoming_cloud = any([neighbor.cloud.cloud.value for neighbor in upwind_cells])
-        new_cloud = self._may_create_cloud()
+        new_cloud = Cell._may_create_cloud()
         is_cloud_present = new_cloud  # or incoming_cloud or remaining_cloud
-        is_rain_present = new_cloud and self._may_create_rain()
+        is_rain_present = new_cloud and Cell._may_create_rain()
         return Cloud(IsCloudPresent(is_cloud_present), Rain(is_rain_present))
 
     @staticmethod
@@ -66,9 +71,12 @@ class Cell:
         upwind_pollution_sum = sum(
             neighbor.air_pollution.value for neighbor in upwind_cells
         )
-        return AirPollution(
-            min(upwind_city_sum + upwind_pollution_sum, AIR_POLLUTION_MAX)
-        )
+        if Cell._may_create_pollution():
+            return AirPollution(
+                min(upwind_city_sum + upwind_pollution_sum, AIR_POLLUTION_MAX)
+            )
+        else:
+            return AirPollution(0)
 
     def next_cell_type(self, downwind_cells, upwind_cells):
         new_cell_type = self.cell_type
