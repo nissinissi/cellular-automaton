@@ -2,9 +2,9 @@ from dataclasses import dataclass
 from random import choice
 from typing import Optional
 
-from model.consts import (AIR_POLLUTION_MAX, AIR_POLLUTION_MIN, HEAT_MAX,
-                          HEAT_MIN, NEIGHBOR_DIRECTIONS, WIND_STRENGTH_MAX,
-                          WIND_STRENGTH_MIN)
+from model.configurable import (AIR_POLLUTION_MAX, AIR_POLLUTION_MIN, HEAT_MAX,
+                                HEAT_MIN, NEIGHBOR_DIRECTIONS, WIND_STRENGTH_MAX,
+                                WIND_STRENGTH_MIN)
 from model.fields import Field, RangeField
 from model.position import Coordinate, Position
 

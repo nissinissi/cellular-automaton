@@ -1,7 +1,7 @@
 from typing import List, Optional
 
 from model.characteristics import Wind, WindDirection
-from model.consts import GRID_SIZE
+from model.configurable import GRID_SIZE
 from model.position import Coordinate, Position
 
 
@@ -28,9 +28,6 @@ class WindGrid:
             destination = position + wind.direction.value.multiply(i)
             if destination not in l:
                 l += [destination]
-            # print(
-                # f"Outgoing wind from {position.x.value, position.y.value} to {destination.x.value, destination.y.value}"
-            # )
         self.outgoing_cache[position] = l
         return l
 

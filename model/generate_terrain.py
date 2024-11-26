@@ -2,7 +2,7 @@ from itertools import product
 from math import exp, pi
 from random import choice, choices, random, uniform
 
-from model.consts import CELL_TYPE_WEIGHTS, CELL_TYPES, GRID_SIZE
+from model.configurable import CELL_TYPE_WEIGHTS, CELL_TYPES, GRID_SIZE
 
 
 def gaussian_2d(m_x: float, s_x: float, m_y: float, s_y: float, p: float):

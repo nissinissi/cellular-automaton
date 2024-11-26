@@ -3,7 +3,7 @@ from typing import Iterable, Optional, Tuple
 
 from typing_extensions import Self
 
-from model.consts import GRID_SIZE, NEIGHBOR_DIRECTIONS
+from model.configurable import GRID_SIZE, NEIGHBOR_DIRECTIONS
 from model.fields import RangeField
 
 

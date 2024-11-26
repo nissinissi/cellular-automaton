@@ -8,10 +8,10 @@ from model.cell_types import CellType, City, Glacier, Sea
 from model.characteristics import (AirPollution, Cloud, Heat, IsCloudPresent,
                                    Position, Rain, Wind, WindDirection,
                                    WindStrength)
-from model.consts import (AIR_POLLUTION_MAX, CLOUD_GENERATION_PROBABILITY,
-                          GLACIER_MELTING_THRESHOLD, HEAT_MAX,
-                          WIND_RANDOM_FACTOR, CELL_TYPE_MAX_HEIGHTS, RAIN_GENERATION_PROBABILITY,
-                          POLLUTION_GENERATION_PROBABILITY, HEAT_MIN)
+from model.configurable import (AIR_POLLUTION_MAX, CLOUD_GENERATION_PROBABILITY,
+                                GLACIER_MELTING_THRESHOLD, HEAT_MAX,
+                                CELL_TYPE_MAX_HEIGHTS, RAIN_GENERATION_PROBABILITY,
+                                POLLUTION_GENERATION_PROBABILITY, HEAT_MIN)
 from model.wind_grid import WindGrid
 
 
@@ -53,13 +53,9 @@ class Cell:
         )
 
     def next_cloud(self, upwind_cells) -> Cloud:
-        # remaining_cloud = (
-        #     any(self.position == upwind_cell.position for upwind_cell in upwind_cells)
-        #     and self.cloud.cloud.value
-        # )
-        # incoming_cloud = any([neighbor.cloud.cloud.value for neighbor in upwind_cells])
+        incoming_cloud = any([neighbor.cloud.cloud.value for neighbor in upwind_cells])
         new_cloud = Cell._may_create_cloud()
-        is_cloud_present = new_cloud  # or incoming_cloud or remaining_cloud
+        is_cloud_present = new_cloud or incoming_cloud
         is_rain_present = new_cloud and Cell._may_create_rain()
         return Cloud(IsCloudPresent(is_cloud_present), Rain(is_rain_present))
 
